@@ -2,6 +2,7 @@ import unittest
 from datetime import datetime
 from engine import capulet_engine, willoughby_engine, sternman_engine
 from battery import splinder_battery, nubbin_battery
+from tire import carrigan, octoprime
 
 
 class TestCapulet(unittest.TestCase):
@@ -42,17 +43,17 @@ class TestSternman(unittest.TestCase):
 class TestSpindler(unittest.TestCase):
     def test_battery_should_be_serviced(self):
         today = datetime.today().date()
-        last_service_date = today.replace(year=today.year - 2)
+        last_service_date = today.replace(year=today.year - 3)
         battery = splinder_battery.SplinderBattery(last_service_date, today)
         self.assertTrue(battery.needs_service())
 
     def test_battery_should_not_be_serviced(self):
         today = datetime.today().date()
-        last_service_date = today.replace(year=today.year - 1)
+        last_service_date = today.replace(year=today.year - 2)
         battery = splinder_battery.SplinderBattery(last_service_date, today)
         self.assertFalse(battery.needs_service())
 
-class TesNubbin(unittest.TestCase):
+class TestNubbin(unittest.TestCase):
     def test_battery_should_be_serviced(self):
         today = datetime.today().date()
         last_service_date = today.replace(year=today.year - 4)
@@ -64,3 +65,25 @@ class TesNubbin(unittest.TestCase):
         last_service_date = today.replace(year=today.year - 3)
         battery = nubbin_battery.NubbinBattery(last_service_date, today)
         self.assertFalse(battery.needs_service())
+
+class TestCarrigan(unittest.TestCase):
+    def test_tire_should_be_serviced(self):
+        tire_worn_arr = [0.1, 0.2, 0.3, 0.9]
+        tire = carrigan.CarriganTire(tire_worn_arr)
+        self.assertTrue(tire.needs_service())
+
+    def test_battery_should_not_be_serviced(self):
+        tire_worn_arr = [0.1, 0.2, 0.3, 0.8]
+        tire = carrigan.CarriganTire(tire_worn_arr)
+        self.assertFalse(tire.needs_service())
+
+class TestOctoprime(unittest.TestCase):
+    def test_tire_should_be_serviced(self):
+        tire_worn_arr = [1, 0.9, 0.2, 0.9]
+        tire = octoprime.OctoprimeTire(tire_worn_arr)
+        self.assertTrue(tire.needs_service())
+
+    def test_battery_should_not_be_serviced(self):
+        tire_worn_arr = [1, 0.1, 0.9, 0.9]
+        tire = octoprime.OctoprimeTire(tire_worn_arr)
+        self.assertFalse(tire.needs_service())
